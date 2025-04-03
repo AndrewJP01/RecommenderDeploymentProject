@@ -9,7 +9,6 @@ interactions = pd.read_csv('users_interactions.csv')
 articles = pd.read_csv('shared_articles.csv')
 
 # Filter only shared articles
-# Filter only shared articles
 articles = articles[articles['eventType'] == 'CONTENT SHARED'].reset_index(drop=True)
 
 # TF-IDF
@@ -21,8 +20,9 @@ cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
 # Mapping
 content_ids = articles['contentId']
-content_index = pd.Series(articles.index, index=articles['contentId'])  # this is now 0 to len(articles)
+content_index = pd.Series(articles.index.values, index=articles['contentId'].values)
 
 # Save
 joblib.dump((cosine_sim, content_ids, content_index), 'content_model.sav')
 
+print("✅ Content-based model saved successfully.")
